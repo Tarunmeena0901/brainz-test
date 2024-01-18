@@ -1,0 +1,16 @@
+{
+  "plugins": [
+    "lodash"
+  ],
+  "presets": [
+    "@babel/preset-typescript",
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "node": "18.0"
+        }
+      }
+    ]
+  ]
+}

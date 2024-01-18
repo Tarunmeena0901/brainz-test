@@ -1,0 +1,110 @@
+{
+  "name": "tarun0901-test",
+  "version": "5.0.0",
+  "description": "A JavaScript data access module for BookBrainz",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "rimraf lib/* && babel src --out-dir lib --extensions .js,.ts && tsc",
+    "build-js-for-test": "rimraf lib/* && babel src --out-dir lib --source-maps inline --extensions .js,.ts",
+    "lint": "eslint .",
+    "lint-errors": "eslint --quiet .",
+    "lint-staged": "lint-staged",
+    "prepublishOnly": "yarn build",
+    "test": "yarn build-js-for-test && yarn lint-errors && mocha",
+    "test-with-report": "mocha --reporter json --reporter-option output=coverage/test-results.json",
+    "test-ci": "yarn build-js-for-test && yarn lint-errors && yarn test-with-report",
+    "dupreport": "jsinspect src/ || true",
+    "nodemon": "nodemon --watch './src/' --exec 'yarn build'",
+    "prepare": "husky install"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "lint-staged": {
+    "*.js": [
+      "eslint"
+    ],
+    "*.ts": [
+      "eslint"
+    ]
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tarunmeena0901/brainz-test.git"
+  },
+  "keywords": [
+    "orm"
+  ],
+  "author": "Tarun more",
+  "contributors": [
+    {
+      "name": "Ben Ockmore",
+      "email": "ben.sput+bookbrainz@gmail.com"
+    },
+    {
+      "name": "Sean Burke",
+      "email": "leftmostcat+bookbrainz@gmail.com"
+    },
+    {
+      "name": "Nicolas Pelletier",
+      "email": "monkey@metabrainz.org"
+    }
+  ],
+  "engines": {
+    "node": ">= 18.0"
+  },
+  "license": "GPL-2.0+",
+  "bugs": {
+    "url": "https://github.com/Tarunmeena0901/brainz-test/issues"
+  },
+  "homepage": "https://github.com/Tarunmeena0901/brainz-test",
+  "dependencies": {
+    "@metabrainz/bookshelf": "^1.4.0",
+    "bookshelf-virtuals-plugin": "^1.0.0",
+    "deep-diff": "^1.0.2",
+    "immutable": "^3.8.2",
+    "knex": "^2.4.2",
+    "lodash": "^4.17.21",
+    "microdiff": "^1.3.2",
+    "moment": "^2.29.1",
+    "pg": "^8.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-typescript": "^7.13.0",
+    "@babel/register": "^7.13.16",
+    "@types/bluebird": "^3.5.41",
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^18.11.18",
+    "@types/pg": "^8.6.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "babel-plugin-lodash": "^3.3.4",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^8.32.0",
+    "eslint-plugin-babel": "^5.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "faker": "^4.1.0",
+    "glob": "^7.1.2",
+    "husky": "^8.0.0",
+    "jsinspect": "^0.12.7",
+    "lint-staged": "^13.1.0",
+    "mocha": "^10.2.0",
+    "node-uuid": "^1.4.8",
+    "nodemon": "^2.0.4",
+    "path": "^0.12.7",
+    "rimraf": "^3.0.0",
+    "typescript": "^4.2.4"
+  }
+}

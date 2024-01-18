@@ -1,0 +1,42 @@
+name: Deploy release to NPM
+
+on:
+  release:
+    types: [published]
+  
+jobs:
+  publish-to-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          # Enables caching Yarn dependencies (uses https://github.com/actions/cache under the hood)
+          cache: 'yarn'
+          registry-url: 'https://registry.npmjs.org'
+          always-auth: true
+          
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # Make sure you have bumped the version before publishing the release
+      # This script will not bump the version and will use the version from package.json
+      # It will just fail if trying to publish an already published version
+      - name: Build and publish the package
+        run: yarn publish --non-interactive
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Commit files
+        run: |
+          git add package.json
+          git commit -m "chore: Release ${{ github.event.release.tag_name }}"
+          git push origin master
